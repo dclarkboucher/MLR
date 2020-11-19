@@ -1,0 +1,10 @@
+Package: bios625hw4.Rproj
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Dylan Clark-Boucher
+Maintainer: <clarkbou@umich.edu>
+Description: Fits multiple linear regression model based on inputted dataset and formula.
+Encoding: UTF-8
+License: None
+LazyData: true

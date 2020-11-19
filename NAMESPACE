@@ -1,0 +1,4 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("datasets", "mtcars")
+importFrom("stats", "complete.cases", "model.frame", "model.matrix",
+               "model.response", "pt")
