@@ -1,4 +1,4 @@
-Package: bios625hw4.Rproj
+Package: MLR
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -8,3 +8,8 @@ Description: Fits multiple linear regression model based on inputted dataset and
 Encoding: UTF-8
 License: None
 LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
