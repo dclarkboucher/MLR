@@ -22,7 +22,7 @@ library(MLR)
 
 ## Fit linear model on dataset
 
-To fit a linear model, simply input a formula and dataset to the `regression_fit` fit function. This produces a list containing the following objects:
+To fit a linear model, simply input a formula and dataset to the `regression_fit()` fit function. This produces a list containing the following objects:
 
 * `formula`: the model formula
 * `dimensions`: the number of observations and covariates
@@ -41,7 +41,7 @@ print(model1$coefficients)
 
 ## Compare results to base functions
 
-Below, we test to ensure that our results align with the standard output from base R alternatives. One advantage of `regression_fit`, you might observe, is that one can access important model components without needing to use additional functions like `summary` or `vcov`.
+Below, we test to ensure that our results align with the standard output from base R alternatives. One advantage of `regression_fit()`, you might observe, is that one can access important model components without needing to use additional functions like `summary()` or `vcov()`.
 
 ```{r test}
 model2 <- lm(formula = form, data = iris)
@@ -72,7 +72,7 @@ all.equal(model1$r_squared, model2_rsq, check.attributes = F)
 
 
 ## Compare speed to base functions
-Next, we compare the efficiency of `regression_fit` to `lm` using the `bench` package. We can see in the output table below that the `lm` function is marginally faster on average.
+Next, we compare the efficiency of `regression_fit()` to `lm()` using the `bench` package. We can see in the output table below that the `lm()` function is marginally faster on average.
 
 ```{r compare, message=FALSE}
 library(bench)
@@ -131,12 +131,11 @@ all.equal(model1$r_squared, model2_rsq, check.attributes = F)
 
 
 ## Compare speed to base functions
-Lastly, we compare the speed of `regression_fit` and `lm` for multiple linear regression. Like before, we find that the base R function might be marginally faster, but the results do vary slightly from one trial to the next.
+Lastly, we compare the speed of `regression_fit()` and `lm()` for multiple linear regression. Like before, we find that the base R function might be marginally faster, but the results do vary slightly from one trial to the next.
 
 ```{r compare2, message=FALSE}
 bench::mark(
   regression_fit(form2, iris)$coefficients,
   summary(lm(form2, iris))$coefficients
 )
-
 ```
