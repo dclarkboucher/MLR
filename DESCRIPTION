@@ -1,6 +1,6 @@
 Package: MLR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Multiple Linear Regression
 Version: 0.1.0
 Author: Dylan Clark-Boucher
 Maintainer: <clarkbou@umich.edu>
@@ -11,5 +11,9 @@ LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
+Imports: 
+    stats,
+    bench

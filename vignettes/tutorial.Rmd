@@ -17,3 +17,126 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(MLR)
 ```
+
+# Example 1: Simple Linear Regression
+
+## Fit linear model on dataset
+
+To fit a linear model, simply input a formula and dataset to the `regression_fit` fit function. This produces a list containing the following objects:
+
+* `formula`: the model formula
+* `dimensions`: the number of observations and covariates
+* `residuals`: the model residuals, as a vector
+* `fitted_values`: the fitted values of the model, as a vector
+* `coefficients`: the estimated coefficients, as a table, which also contains the results of a two-sided t-test
+* `variance_covariance`: the variance-covariance matrix, and
+* `r_squared`: the R-squared and adjusted R-square, as a vector of length 2
+```{r fit}
+data(iris)
+form <- Sepal.Length ~ Sepal.Width
+
+model1 <- regression_fit(formula = form, data = iris)
+print(model1$coefficients)
+```
+
+## Compare results to base functions
+
+Below, we test to ensure that our results align with the standard output from base R alternatives. One advantage of `regression_fit`, you might observe, is that one can access important model components without needing to use additional functions like `summary` or `vcov`.
+
+```{r test}
+model2 <- lm(formula = form, data = iris)
+model2_sum <- summary(model2)
+
+#Check coefficients
+all.equal(model1$coefficients, model2_sum$coefficients)
+
+#Check confidence intervals
+all.equal(model1$confidence_intervals,confint(model2))
+
+#Check residuals
+all.equal(model1$residuals, model2$residuals, check.attributes = F)
+
+#Check fitted values
+all.equal(model1$fitted_values, model2$fitted.values, check.attributes = F)
+
+#Check variance-covariance
+all.equal(model1$variances, vcov(model2), check.attributes = F)
+
+#Check F test
+all.equal(model1$anova$f_value, model2_sum$fstatistic["value"], check.attributes = F)
+
+#Check R-squared
+model2_rsq <- c(model2_sum$r.squared, model2_sum$adj.r.squared)
+all.equal(model1$r_squared, model2_rsq, check.attributes = F)
+```
+
+
+## Compare speed to base functions
+Next, we compare the efficiency of `regression_fit` to `lm` using the `bench` package. We can see in the output table below that the `lm` function is marginally faster on average.
+
+```{r compare, message=FALSE}
+library(bench)
+
+bench::mark(
+  regression_fit(form, iris)$coefficients,
+  summary(lm(form, iris))$coefficients
+)
+
+```
+
+# Example 2: Multiple Linear Regression
+
+## Fit linear model on dataset
+
+We can fit a multiple regression model in the same way as an SLR. Here, we have also specified a particular `alpha` to use in our confidence intervals, instead of using the default of 0.05. 
+```{r fit2}
+form2 <- Sepal.Length ~ Sepal.Width + Petal.Length + Species
+
+model1 <- regression_fit(formula = form2, data = iris, alpha = 0.1)
+print(model1$coefficients)
+```
+
+## Compare results to base functions
+
+Once again, we test the results below. All match the output provided by base R functions.
+
+```{r test2}
+model2 <- lm(formula = form2, 
+             data = iris)
+
+model2_sum <- summary(model2)
+
+#Check coefficients
+all.equal(model1$coefficients, model2_sum$coefficients)
+
+#Check confidence intervals
+all.equal(model1$confidence_intervals,confint(model2, level = 0.9))
+
+#Check residuals
+all.equal(model1$residuals, model2$residuals, check.attributes = F)
+
+#Check fitted values
+all.equal(model1$fitted_values, model2$fitted.values, check.attributes = F)
+
+#Check variance-covariance
+all.equal(model1$variances, vcov(model2), check.attributes = F)
+
+#Check F test
+all.equal(model1$anova$f_value, model2_sum$fstatistic["value"], check.attributes = F)
+
+#Check R-squared
+model2_rsq <- c(model2_sum$r.squared, model2_sum$adj.r.squared)
+all.equal(model1$r_squared, model2_rsq, check.attributes = F)
+```
+
+
+## Compare speed to base functions
+Lastly, we compare the speed of `regression_fit` and `lm` for multiple linear regression. Like before, we find that the base R function might be marginally faster, but the results do vary slightly from one trial to the next.
+
+```{r compare2, message=FALSE}
+bench::mark(
+  regression_fit(form2, iris)$coefficients,
+  summary(lm(form2, iris))$coefficients
+)
+
+```
