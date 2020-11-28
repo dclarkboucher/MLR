@@ -7,7 +7,7 @@
 #' @param alpha an optional argument indicating significance level of confidence intervals. If not provided, 0.05 is used.
 #'
 #' @return A list containing model details, estimated coefficients, confidence intervals,
-#' fitted values, residuals, variance-covariance matrix, and R-squared.
+#' fitted values, residuals, variance-covariance matrix, ANOVA test results, and R-squared.
 #'
 #' @examples
 #' data(mtcars)

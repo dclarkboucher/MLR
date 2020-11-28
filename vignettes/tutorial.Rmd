@@ -29,7 +29,9 @@ To fit a linear model, simply input a formula and dataset to the `regression_fit
 * `residuals`: the model residuals, as a vector
 * `fitted_values`: the fitted values of the model, as a vector
 * `coefficients`: the estimated coefficients, as a table, which also contains the results of a two-sided t-test
-* `variance_covariance`: the variance-covariance matrix, and
+* `confidence_intervals`: (1-alpha)% confidence intervals for each coefficient, as a matrix
+* `variances`: the variance-covariance matrix
+* `anova`: the results of an ANOVA test, as a list
 * `r_squared`: the R-squared and adjusted R-square, as a vector of length 2
 ```{r fit}
 data(iris)
@@ -41,7 +43,7 @@ print(model1$coefficients)
 
 ## Compare results to base functions
 
-Below, we test to ensure that our results align with the standard output from base R alternatives. One advantage of `regression_fit()`, you might observe, is that one can access important model components without needing to use additional functions like `summary()` or `vcov()`.
+Below, we test to ensure that our results align with the standard output from base R alternatives. One advantage of `regression_fit()`, you might observe, is that we can access important model components without needing to use additional functions like `summary()` or `vcov()`.
 
 ```{r test}
 model2 <- lm(formula = form, data = iris)
@@ -72,7 +74,7 @@ all.equal(model1$r_squared, model2_rsq, check.attributes = F)
 
 
 ## Compare speed to base functions
-Next, we compare the efficiency of `regression_fit()` to `lm()` using the `bench` package. We can see in the output table below that the `lm()` function is marginally faster on average.
+Next, we compare the efficiency of `regression_fit()` to `lm()` using the **bench** package. We can see in the output table below that the `lm()` function is marginally faster on average.
 
 ```{r compare, message=FALSE}
 library(bench)

@@ -15,7 +15,7 @@ regression_fit(formula, data, alpha = 0.05)
 }
 \value{
 A list containing model details, estimated coefficients, confidence intervals,
-fitted values, residuals, variance-covariance matrix, and R-squared.
+fitted values, residuals, variance-covariance matrix, ANOVA test results, and R-squared.
 }
 \description{
 Fits multiple linear regression model using ordinary least squares
